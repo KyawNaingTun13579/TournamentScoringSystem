@@ -21,31 +21,16 @@ public class TournamentScoringSystem {
 		int[] rankPoints;
 
 		// Welcome message and instructions
-		System.out.println("\n\t   Welcome to the Tournament Scoring System\n");
-		System.out.println("--------------------------------------------------------------");
-		System.out.println("This version of the system will only display the HIGHEST POINTS");
-		System.out.println("of the winner for Team or Individual player.");
-		System.out.println("--------------------------------------------------------------");
-		System.out.println("Every input for numbers must be in INTEGER FORMAT.");
-		System.out.println("--------------------------------------------------------------");
+		printWelcomeMessage();
 
 		// Prompt the user to enter the number of ranks
-		do {
-			System.out.print(
-					"\nPlease enter the total number of ranks you want to assign, \n" + "with a minimum value of 1: ");
-			String temp = input.nextLine();
 
-			flag = isValidNumber(temp);
+		noOfRanks = promptForNumber(input,
+				"Please enter the total number of ranks you want to assign, \nwith a minimum value of 1: ", 1, 10);
 
-			if (flag)
-				noOfRanks = Integer.parseInt(temp);
-
-		} while (!flag || noOfRanks < 1);
-
-		System.out.println("\n----- Number of Ranks SET SUCCESSFULLY -----");
-		System.out.println("--------------------------------------------------------------");
+		printFormattedHeader("Number of Ranks SET SUCCESSFULLY");
 		System.out.println("Total Ranks: " + noOfRanks);
-		System.out.println("--------------------------------------------------------------\n");
+		printFormattedFooter();
 
 		rankPoints = new int[noOfRanks];
 
@@ -67,60 +52,47 @@ public class TournamentScoringSystem {
 			} while (!flag);
 		}
 
-		System.out.println("\n----- Points for each Rank SET SUCCESSFULLY -----");
-		System.out.println("--------------------------------------------------------------");
+		printFormattedHeader("Points for each Rank SET SUCCESSFULLY");
 
 		for (int i = 0; i < noOfRanks; i++) {
 			System.out.println("Rank " + (i + 1) + ": " + rankPoints[i] + " points");
 		}
 
-		System.out.println("--------------------------------------------------------------\n");
+		printFormattedFooter();
 
-		System.out.println("!!!!! Other ranks will be set as 1 point !!!!!\n");
+		System.out.println("!!!!! Other ranks will be set as 1 point !!!!!");
 
-		System.out.println("--------------------------------------------------------------");
-		System.out.println("Select an option:");
-		System.out.println("--------------------------------------------------------------");
+		printFormattedFooter();
+
+		printFormattedHeader("Select an option");
 
 		for (int i = 0; i < 4; i++) {
 			System.out.println((i + 1) + ": for " + OPTIONNAMES[i]);
 		}
-		System.out.println("--------------------------------------------------------------");
+
+		printFormattedFooter();
 
 		System.out.println("The Normal Team and Normal Individual will play 5 events,"
 				+ "\nwhile the Special Team and Special Individual can choose \nthe events to play.");
 
-		System.out.println("--------------------------------------------------------------\n");
+		printFormattedFooter();
 
 		int choose = 0;
 		flag = false;
 
 		// Prompt the user to select an option
-		do {
-			System.out.print("Enter a number between 1 to 4: ");
-			String tempInput = input.nextLine();
 
-			flag = isValidNumber(tempInput);
+		choose = promptForNumber(input, "Enter a number between 1 to 4: ", 1, 4);
 
-			if (flag) {
-
-				choose = Integer.parseInt(tempInput);
-
-				if (choose < 1 || choose > 4)
-					flag = false;
-			}
-
-		} while (!flag);
-
-		System.out.println("--------------------------------------------------------------");
-		System.out.println("You selected option " + choose + " -> " + OPTIONNAMES[choose - 1] + " <-");
-		System.out.println("--------------------------------------------------------------\n");
+		System.out.print("\n------------------------------------------------------------------");
+		printFormattedHeader("You selected option " + choose + " -> " + OPTIONNAMES[choose - 1] + " <-");
+		printFormattedFooter();
 
 		switch (choose) {
 		case 1: {
 			// Initialize variables for team and event details
 			int teamMember = 5;
-			int noOfTeams = 5;
+			int noOfTeams = 4;
 			int noOfEvents = 5;
 
 			String teamNames[];
@@ -128,10 +100,12 @@ public class TournamentScoringSystem {
 			String eventNames[];
 			int[][] teamPoints;
 
-			System.out.println("\n----- Number of Events SET SUCCESSFULLY -----");
-			System.out.println("--------------------------------------------------------------");
+			System.out.println();
+			printFormattedHeader("Number of Events SET SUCCESSFULLY");
+
 			System.out.println("Total Number of Events: " + noOfEvents);
-			System.out.println("--------------------------------------------------------------\n");
+
+			printFormattedFooter();
 
 			eventNames = new String[noOfEvents];
 
@@ -142,19 +116,22 @@ public class TournamentScoringSystem {
 				eventNames[i] = input.nextLine();
 			}
 
-			System.out.println("\n----- Events Name SET SUCCESSFULLY -----");
-			System.out.println("--------------------------------------------------------------");
+			printFormattedHeader("Events Name SET SUCCESSFULLY");
 
 			for (int i = 0; i < noOfEvents; i++) {
 
 				System.out.println("Event " + (i + 1) + " name: " + eventNames[i]);
 			}
-			System.out.println("--------------------------------------------------------------\n");
 
-			System.out.println("\n----- Number of Teams SET SUCCESSFULLY -----");
-			System.out.println("--------------------------------------------------------------");
+			printFormattedFooter();
+
+			System.out.println();
+
+			printFormattedHeader("Number of Teams SET SUCCESSFULLY");
+
 			System.out.println("Total Number of Teams: " + noOfTeams);
-			System.out.println("--------------------------------------------------------------\n");
+
+			printFormattedFooter();
 
 			teamNames = new String[noOfTeams];
 
@@ -178,13 +155,12 @@ public class TournamentScoringSystem {
 					teamMembers[index++] = input.nextLine();
 				}
 
-				System.out.println("##\t##\t##\t##\t##\t##\t##\t##");
+				printFormattedHashFooter();
 			}
 
 			index = 0;
 
-			System.out.println("\n----- Teams and Members Name SET SUCCESSFULLY -----");
-			System.out.println("--------------------------------------------------------------");
+			printFormattedHeader("Teams and Members Name SET SUCCESSFULLY");
 
 			for (int i = 0; i < noOfTeams; i++) {
 
@@ -195,13 +171,12 @@ public class TournamentScoringSystem {
 					System.out.println("Member " + (ii + 1) + " name: " + teamMembers[index++]);
 				}
 
-				System.out.println("##\t##\t##\t##\t##\t##\t##\t##");
+				printFormattedHashFooter();
 			}
 
-			System.out.println("--------------------------------------------------------------\n");
+			printFormattedFooter();
 
-			flag = false;
-
+			System.out.println();
 			// Prompt the user to enter the rank for each team in each event
 			for (int i = 0; i < noOfTeams; i++) {
 
@@ -211,18 +186,8 @@ public class TournamentScoringSystem {
 				int totalRankPoints = 0;
 
 				for (int ii = 0; ii < noOfEvents; ii++) {
-					do {
-
-						System.out.print("Rank for " + eventNames[ii] + " event: ");
-						String temp = input.nextLine();
-
-						flag = isValidNumber(temp);
-
-						if (flag) {
-							inputRank = Integer.parseInt(temp);
-
-						}
-					} while (!flag || inputRank <= 0);
+					inputRank = promptForNumber(input,
+							"Rank for " + eventNames[ii] + " event (min 0 and max " + noOfTeams + "): ", 1, noOfTeams);
 
 					if (inputRank <= noOfRanks) {
 
@@ -242,11 +207,10 @@ public class TournamentScoringSystem {
 					}
 				}
 
-				System.out.println("##\t##\t##\t##\t##\t##\t##\t##");
+				printFormattedHashFooter();
 			}
 
-			System.out.println("\n----- Rank of Teams SET SUCCESSFULLY -----");
-			System.out.println("--------------------------------------------------------------");
+			printFormattedHeader("Rank of Teams SET SUCCESSFULLY");
 
 			index = 0;
 			for (int i = 0; i < noOfTeams; i++) {
@@ -263,13 +227,12 @@ public class TournamentScoringSystem {
 					}
 				}
 
-				System.out.println("##\t##\t##\t##\t##\t##\t##\t##");
+				printFormattedHashFooter();
 			}
 
-			System.out.println("--------------------------------------------------------------\n");
+			printFormattedFooter();
 
-			System.out.println("\n----- FINAL RESULT -----");
-			System.out.println("--------------------------------------------------------------");
+			printFormattedHeader("FINAL RESULT");
 
 			// Determine the highest points for each event and the total points
 			for (int i = 0; i < noOfEvents + 1; i++) {
@@ -279,7 +242,7 @@ public class TournamentScoringSystem {
 					System.out.println("\nFinding the max points of " + eventNames[i] + " event.");
 				else
 
-					System.out.println("Finding the total max points.");
+					System.out.println("\nFinding the total max points.");
 
 				int max = teamPoints[0][i];
 
@@ -299,7 +262,7 @@ public class TournamentScoringSystem {
 
 					System.out.println("The total max points: " + max);
 
-				System.out.println("--------------------------------------------------------------\n");
+				printFormattedFooter();
 
 				// save the indexs of team name with the same points
 				for (int ii = 0; ii < noOfTeams; ii++) {
@@ -310,7 +273,7 @@ public class TournamentScoringSystem {
 
 				if (i < noOfEvents) {
 
-					System.out.println("Winner of " + eventNames[i] + " event.");
+					printFormattedHeader("Winner of " + eventNames[i] + " event");
 
 					for (int highest : highestPointIndexes) {
 
@@ -318,10 +281,10 @@ public class TournamentScoringSystem {
 
 					}
 
-					System.out.println("--------------------------------------------------------------");
+					printFormattedFooter();
 				} else {
 
-					System.out.println("Highest Total Points Team(s) ...");
+					printFormattedHeader("Highest Total Points Team(s)");
 
 					for (int highest : highestPointIndexes) {
 
@@ -331,7 +294,7 @@ public class TournamentScoringSystem {
 
 				highestPointIndexes.clear();
 			}
-			System.out.println("--------------------------------------------------------------\n");
+			printFormattedFooter();
 		}
 			break;
 		case 2:
@@ -345,10 +308,12 @@ public class TournamentScoringSystem {
 
 			int pointsOfMembers[][] = new int[noOfMembers][1 + noOfEvents];
 
-			System.out.println("\n----- Number of Events SET SUCCESSFULLY -----");
-			System.out.println("--------------------------------------------------------------");
+			System.out.println();
+			printFormattedHeader("Number of Events SET SUCCESSFULLY");
+
 			System.out.println("Total Number of Events: " + noOfEvents);
-			System.out.println("--------------------------------------------------------------\n");
+
+			printFormattedFooter();
 
 			// Prompt the user to enter the name of each event
 			for (int i = 0; i < noOfEvents; i++) {
@@ -357,19 +322,20 @@ public class TournamentScoringSystem {
 				eventNames[i] = input.nextLine();
 			}
 
-			System.out.println("\n----- Events Name SET SUCCESSFULLY -----");
-			System.out.println("--------------------------------------------------------------");
+			printFormattedHeader("Events Name SET SUCCESSFULLY");
 
 			for (int i = 0; i < noOfEvents; i++) {
 
 				System.out.println("Event " + (i + 1) + " name: " + eventNames[i]);
 			}
-			System.out.println("--------------------------------------------------------------\n");
 
-			System.out.println("\n----- Number of Members SET SUCCESSFULLY -----");
-			System.out.println("--------------------------------------------------------------");
+			printFormattedFooter();
+
+			printFormattedHeader("Number of Members SET SUCCESSFULLY");
+
 			System.out.println("Total Number of Members: " + noOfMembers);
-			System.out.println("--------------------------------------------------------------\n");
+
+			printFormattedFooter();
 
 			for (int i = 0; i < noOfMembers; i++) {
 
@@ -377,17 +343,15 @@ public class TournamentScoringSystem {
 				memberNames[i] = input.nextLine();
 			}
 
-			System.out.println("\n----- Member names SET SUCCESSFULLY -----");
-			System.out.println("--------------------------------------------------------------");
+			printFormattedHeader("Member names SET SUCCESSFULLY");
 
 			for (int i = 0; i < noOfMembers; i++) {
 				System.out.println("Member (" + (i + 1) + ") name : " + memberNames[i]);
 			}
 
-			System.out.println("--------------------------------------------------------------\n");
+			printFormattedFooter();
 
 			// rank for each member
-			flag = false;
 
 			for (int i = 0; i < noOfMembers; i++) {
 				System.out.println("Enter rank for member : " + memberNames[i]);
@@ -395,18 +359,10 @@ public class TournamentScoringSystem {
 				int inputRank = 0, totalRankPoints = 0;
 
 				for (int ii = 0; ii < noOfEvents; ii++) {
-					do {
 
-						System.out.print("Rank for " + eventNames[ii] + " event: ");
-						String temp = input.nextLine();
-
-						flag = isValidNumber(temp);
-
-						if (flag) {
-							inputRank = Integer.parseInt(temp);
-
-						}
-					} while (!flag || inputRank <= 0);
+					inputRank = promptForNumber(input,
+							"Rank for " + eventNames[ii] + " event (min 0 and max " + noOfMembers + "): ", 0,
+							noOfMembers);
 
 					if (inputRank <= noOfRanks) {
 
@@ -427,11 +383,10 @@ public class TournamentScoringSystem {
 
 				}
 
-				System.out.println("##\t##\t##\t##\t##\t##\t##\t##");
+				printFormattedHashFooter();
 			}
 
-			System.out.println("\n----- Member Ranks SET SUCCESSFULLY -----");
-			System.out.println("--------------------------------------------------------------");
+			printFormattedHeader("Member Ranks SET SUCCESSFULLY");
 
 			for (int i = 0; i < noOfMembers; i++) {
 
@@ -447,15 +402,14 @@ public class TournamentScoringSystem {
 					}
 				}
 
-				System.out.println("##\t##\t##\t##\t##\t##\t##\t##");
+				printFormattedHashFooter();
 			}
 
-			System.out.println("--------------------------------------------------------------\n");
+			printFormattedFooter();
 
-			System.out.println("--------------------------------------------------------------\n");
-
-			System.out.println("\n----- FINAL RESULT -----");
-			System.out.println("--------------------------------------------------------------");
+			System.out.println();
+			printFormattedFooter();
+			printFormattedHeader("FINAL RESULT");
 
 			// Determine the highest points for each event and the total points
 			for (int i = 0; i < noOfEvents + 1; i++) {
@@ -485,7 +439,7 @@ public class TournamentScoringSystem {
 
 					System.out.println("The total max points: " + max);
 
-				System.out.println("--------------------------------------------------------------\n");
+				printFormattedFooter();
 
 				// save the indexs of team name with the same points
 				for (int ii = 0; ii < noOfMembers; ii++) {
@@ -504,7 +458,7 @@ public class TournamentScoringSystem {
 
 					}
 
-					System.out.println("--------------------------------------------------------------");
+					printFormattedFooter();
 				} else {
 
 					System.out.println("Highest Total Points Member(s) ...");
@@ -517,7 +471,7 @@ public class TournamentScoringSystem {
 
 				highestPointIndexes.clear();
 			}
-			System.out.println("--------------------------------------------------------------\n");
+			printFormattedFooter();
 
 		}
 			break;
@@ -538,24 +492,15 @@ public class TournamentScoringSystem {
 			flag = false;
 
 			// Prompt the user to enter the number of events
-			do {
+			noOfEvents = promptForNumber(input, "Enter the total number of events (min 1 and max 5): ", minEvent,
+					maxEvent);
 
-				System.out.print("Enter the total number of events (min 1 and max 5): ");
-				String temp = input.nextLine();
+			System.out.println();
+			printFormattedHeader("Number of Events SET SUCCESSFULLY");
 
-				flag = isValidNumber(temp);
-
-				if (flag) {
-					noOfEvents = Integer.parseInt(temp);
-				}
-
-			} while (!flag || noOfEvents < minEvent || noOfEvents > maxEvent);
-
-			System.out.println("\n----- Number of Events SET SUCCESSFULLY -----");
-			System.out.println("--------------------------------------------------------------");
 			System.out.println("Total Number of Events: " + noOfEvents);
-			System.out.println("--------------------------------------------------------------\n");
 
+			printFormattedFooter();
 			eventNames = new String[noOfEvents];
 
 			// Prompt the user to enter the name of each event
@@ -565,35 +510,25 @@ public class TournamentScoringSystem {
 				eventNames[i] = input.nextLine();
 			}
 
-			System.out.println("\n----- Events Name SET SUCCESSFULLY -----");
-			System.out.println("--------------------------------------------------------------");
+			printFormattedHeader("Events Name SET SUCCESSFULLY");
 
 			for (int i = 0; i < noOfEvents; i++) {
 
 				System.out.println("Event " + (i + 1) + " name: " + eventNames[i]);
 			}
-			System.out.println("--------------------------------------------------------------\n");
+
+			printFormattedFooter();
 
 			flag = false;
 
 			// Prompt the user to enter the number of teams
-			do {
+			noOfTeams = promptForNumber(input, "Enter the total number of teams (min 1 and max 5): ", minTeam, maxTeam);
 
-				System.out.print("Enter the total number of teams (min 1 and max 5): ");
-				String temp = input.nextLine();
+			printFormattedHeader("Number of Teams SET SUCCESSFULLY");
 
-				flag = isValidNumber(temp);
-
-				if (flag) {
-					noOfTeams = Integer.parseInt(temp);
-
-				}
-			} while (!flag || noOfTeams < minTeam || noOfTeams > maxTeam);
-
-			System.out.println("\n----- Number of Teams SET SUCCESSFULLY -----");
-			System.out.println("--------------------------------------------------------------");
 			System.out.println("Total Number of Teams: " + noOfTeams);
-			System.out.println("--------------------------------------------------------------\n");
+
+			printFormattedFooter();
 
 			teamNames = new String[noOfTeams];
 
@@ -617,13 +552,10 @@ public class TournamentScoringSystem {
 					teamMembers[index++] = input.nextLine();
 				}
 
-				System.out.println("##\t##\t##\t##\t##\t##\t##\t##");
+				printFormattedHashFooter();
 			}
 
-			index = 0;
-
-			System.out.println("\n----- Teams and Members Name SET SUCCESSFULLY -----");
-			System.out.println("--------------------------------------------------------------");
+			printFormattedHeader("Teams and Members Name SET SUCCESSFULLY");
 
 			for (int i = 0; i < noOfTeams; i++) {
 
@@ -634,12 +566,10 @@ public class TournamentScoringSystem {
 					System.out.println("Member " + (ii + 1) + " name: " + teamMembers[index++]);
 				}
 
-				System.out.println("##\t##\t##\t##\t##\t##\t##\t##");
+				printFormattedHashFooter();
 			}
 
-			System.out.println("--------------------------------------------------------------\n");
-
-			flag = false;
+			printFormattedFooter();
 
 			// Prompt the user to enter the rank for each team in each event
 			for (int i = 0; i < noOfTeams; i++) {
@@ -681,11 +611,10 @@ public class TournamentScoringSystem {
 					}
 				}
 
-				System.out.println("##\t##\t##\t##\t##\t##\t##\t##");
+				printFormattedHashFooter();
 			}
 
-			System.out.println("\n----- Rank of Teams SET SUCCESSFULLY -----");
-			System.out.println("--------------------------------------------------------------");
+			printFormattedHeader("Rank of Teams SET SUCCESSFULLY");
 
 			index = 0;
 			for (int i = 0; i < noOfTeams; i++) {
@@ -702,23 +631,22 @@ public class TournamentScoringSystem {
 					}
 				}
 
-				System.out.println("##\t##\t##\t##\t##\t##\t##\t##");
+				printFormattedHashFooter();
 			}
 
-			System.out.println("--------------------------------------------------------------\n");
+			printFormattedFooter();
 
-			System.out.println("\n----- FINAL RESULT -----");
-			System.out.println("--------------------------------------------------------------");
+			printFormattedHeader("FINAL RESULT");
 
 			// Determine the highest points for each event and the total points
 			for (int i = 0; i < noOfEvents + 1; i++) {
 
 				if (i < noOfEvents)
 
-					System.out.println("\nFinding the max point of " + eventNames[i] + " event.");
+					System.out.println("\nFinding the max points of " + eventNames[i] + " event.");
 				else
 
-					System.out.println("Finding the total max points.");
+					System.out.println("\nFinding the total max points.");
 
 				int max = teamPoints[0][i];
 
@@ -738,8 +666,9 @@ public class TournamentScoringSystem {
 
 					System.out.println("The total max points: " + max);
 
-				System.out.println("--------------------------------------------------------------\n");
+				printFormattedFooter();
 
+				// save the indexs of team name with the same points
 				for (int ii = 0; ii < noOfTeams; ii++) {
 
 					if (max == teamPoints[ii][i])
@@ -748,7 +677,7 @@ public class TournamentScoringSystem {
 
 				if (i < noOfEvents) {
 
-					System.out.println("Winner of " + eventNames[i] + " event.");
+					printFormattedHeader("Winner of " + eventNames[i] + " event");
 
 					for (int highest : highestPointIndexes) {
 
@@ -756,11 +685,10 @@ public class TournamentScoringSystem {
 
 					}
 
-					System.out.println("--------------------------------------------------------------");
-
+					printFormattedFooter();
 				} else {
 
-					System.out.println("Highest Total Points Team(s) ...");
+					printFormattedHeader("Highest Total Points Team(s)");
 
 					for (int highest : highestPointIndexes) {
 
@@ -770,11 +698,11 @@ public class TournamentScoringSystem {
 
 				highestPointIndexes.clear();
 			}
-			System.out.println("--------------------------------------------------------------\n");
+			printFormattedFooter();
 		}
 			break;
 		case 4:
-			// Code for Special Individual
+		// Code for Special Individual
 		{
 			int minEvent = 1;
 			int maxEvent = 5;
@@ -782,31 +710,23 @@ public class TournamentScoringSystem {
 			int maxMember = 20;
 			int noOfEvents = 0;
 			int noOfMembers = 0;
-			
+
 			String[] eventNames;
 			String[] memberNames;
 			int pointsOfMembers[][];
-			
+
 			flag = false;
 
 			// Prompt the user to enter the number of events
-			do {
+			noOfEvents = promptForNumber(input, "Enter the total number of events (min 1 and max 5): ", minEvent,
+					maxEvent);
 
-				System.out.print("Enter the total number of events (min 1 and max 5): ");
-				String temp = input.nextLine();
+			System.out.println();
+			printFormattedHeader("Number of Events SET SUCCESSFULLY");
 
-				flag = isValidNumber(temp);
-
-				if (flag) {
-					noOfEvents = Integer.parseInt(temp);
-				}
-
-			} while (!flag || noOfEvents < minEvent || noOfEvents > maxEvent);
-
-			System.out.println("\n----- Number of Events SET SUCCESSFULLY -----");
-			System.out.println("--------------------------------------------------------------");
 			System.out.println("Total Number of Events: " + noOfEvents);
-			System.out.println("--------------------------------------------------------------\n");
+
+			printFormattedFooter();
 
 			eventNames = new String[noOfEvents];
 
@@ -817,101 +737,22 @@ public class TournamentScoringSystem {
 				eventNames[i] = input.nextLine();
 			}
 
-			System.out.println("\n----- Events Name SET SUCCESSFULLY -----");
-			System.out.println("--------------------------------------------------------------");
+			printFormattedHeader("Events Name SET SUCCESSFULLY");
 
 			for (int i = 0; i < noOfEvents; i++) {
 
 				System.out.println("Event " + (i + 1) + " name: " + eventNames[i]);
 			}
-			System.out.println("--------------------------------------------------------------\n");
-
-			flag = false;
+			printFormattedFooter();
 
 			// Prompt the user to enter the number of teams
-			do {
-
-				System.out.print("Enter the total number of member (min 5 and max 20): ");
-				String temp = input.nextLine();
-
-				flag = isValidNumber(temp);
-
-				if (flag) {
-					noOfMembers = Integer.parseInt(temp);
-
-				}
-			} while (!flag || noOfMembers < minMember || noOfMembers > maxMember);
+			noOfMembers = promptForNumber(input, "Enter the total number of member (min 5 and max 20): ", minMember,
+					maxMember);
 
 			pointsOfMembers = new int[noOfMembers][1 + noOfEvents];
-			
-			System.out.println("\n----- Number of Members SET SUCCESSFULLY -----");
-			System.out.println("--------------------------------------------------------------");
-			System.out.println("Total Number of Members: " + noOfMembers);
-			System.out.println("--------------------------------------------------------------\n");
-
 			memberNames = new String[noOfMembers];
-			
-			for (int i = 0; i < noOfMembers; i++) {
 
-				System.out.print("Enter name of member(" + (i + 1) + ") :");
-				memberNames[i] = input.nextLine();
-			}
-
-			System.out.println("\n----- Member names SET SUCCESSFULLY -----");
-			System.out.println("--------------------------------------------------------------");
-
-			for (int i = 0; i < noOfMembers; i++) {
-				System.out.println("Member (" + (i + 1) + ") name : " + memberNames[i]);
-			}
-
-			System.out.println("--------------------------------------------------------------\n");
-
-			// rank for each member
-			flag = false;
-
-			for (int i = 0; i < noOfMembers; i++) {
-				System.out.println("Enter rank for member : " + memberNames[i]);
-
-				int inputRank = 0, totalRankPoints = 0;
-
-				for (int ii = 0; ii < noOfEvents; ii++) {
-					do {
-
-						System.out.print("Rank for " + eventNames[ii] + " event: ");
-						String temp = input.nextLine();
-
-						flag = isValidNumber(temp);
-
-						if (flag) {
-							inputRank = Integer.parseInt(temp);
-
-						}
-					} while (!flag || inputRank <= 0);
-
-					if (inputRank <= noOfRanks) {
-
-						totalRankPoints += rankPoints[inputRank - 1];
-						pointsOfMembers[i][ii] = rankPoints[inputRank - 1];
-
-					} else {
-
-						totalRankPoints += 1;
-						pointsOfMembers[i][ii] = 1;
-
-					}
-
-					if (ii == noOfEvents - 1) {
-
-						pointsOfMembers[i][ii + 1] = totalRankPoints;
-					}
-
-				}
-
-				System.out.println("##\t##\t##\t##\t##\t##\t##\t##");
-			}
-
-			System.out.println("\n----- Member Ranks SET SUCCESSFULLY -----");
-			System.out.println("--------------------------------------------------------------");
+			printFormattedHeader("Member Ranks SET SUCCESSFULLY");
 
 			for (int i = 0; i < noOfMembers; i++) {
 
@@ -927,15 +768,14 @@ public class TournamentScoringSystem {
 					}
 				}
 
-				System.out.println("##\t##\t##\t##\t##\t##\t##\t##");
+				printFormattedHashFooter();
 			}
 
-			System.out.println("--------------------------------------------------------------\n");
+			printFormattedFooter();
 
-			System.out.println("--------------------------------------------------------------\n");
-
-			System.out.println("\n----- FINAL RESULT -----");
-			System.out.println("--------------------------------------------------------------");
+			System.out.println();
+			printFormattedFooter();
+			printFormattedHeader("FINAL RESULT");
 
 			// Determine the highest points for each event and the total points
 			for (int i = 0; i < noOfEvents + 1; i++) {
@@ -965,7 +805,7 @@ public class TournamentScoringSystem {
 
 					System.out.println("The total max points: " + max);
 
-				System.out.println("--------------------------------------------------------------\n");
+				printFormattedFooter();
 
 				// save the indexs of team name with the same points
 				for (int ii = 0; ii < noOfMembers; ii++) {
@@ -984,7 +824,7 @@ public class TournamentScoringSystem {
 
 					}
 
-					System.out.println("--------------------------------------------------------------");
+					printFormattedFooter();
 				} else {
 
 					System.out.println("Highest Total Points Member(s) ...");
@@ -997,7 +837,7 @@ public class TournamentScoringSystem {
 
 				highestPointIndexes.clear();
 			}
-			System.out.println("--------------------------------------------------------------\n");
+			printFormattedFooter();
 
 		}
 			break;
@@ -1006,8 +846,82 @@ public class TournamentScoringSystem {
 		System.out.println("\n!!!!! Program FINISHED. See you soon !!!!!");
 	}
 
+	public static void printWelcomeMessage() {
+
+		printFormattedHeader("Welcome to the Torunament Scoring System");
+
+		System.out.println("This version of the system will only display the HIGHEST POINTS");
+		System.out.println("of the winner for Team or Individual player.");
+
+		printFormattedFooter();
+
+		printFormattedHeader("Every input for numbers must be in INTEGER FORMAT");
+		System.out.println();
+	}
+
+	private static void printFormattedHeader(String text) {
+
+		System.out.println();
+		int totalLength = 66;
+		int dashCount = 4;
+
+		int textLength = text.length();
+		int remainingLength = totalLength - 2 * dashCount - textLength;
+		int padding = remainingLength / 2;
+
+		int paddingRight = padding + (remainingLength % 2);
+
+		System.out.printf("%s%s%s%s%s\n", "-".repeat(dashCount), " ".repeat(padding), text, " ".repeat(paddingRight),
+				"-".repeat(dashCount));
+
+		System.out.println("-".repeat(totalLength));
+	}
+
+	private static void printFormattedFooter() {
+		int totalLength = 66;
+		System.out.println("-".repeat(totalLength));
+	}
+
+	private static void printFormattedHashFooter() {
+		String str = "##";
+		int totalLength = 66;
+		int tabLength = 8; // Typically, a tab is 8 spaces
+		int strLength = str.length();
+
+		int numPairs = totalLength / (strLength + tabLength);
+
+		for (int i = 0; i < numPairs; i++) {
+			System.out.print(str + "\t");
+		}
+
+		// Print remaining ## to reach total length if needed
+		int remainingLength = totalLength - (numPairs * (strLength + tabLength));
+		if (remainingLength >= strLength) {
+			System.out.print(str);
+		}
+
+		System.out.println();
+	}
+
+	public static int promptForNumber(Scanner input, String message, int minValue, int maxValue) {
+		int number = 0;
+		boolean flag;
+		do {
+			System.out.print(message);
+			String temp = input.nextLine();
+
+			flag = isValidNumber(temp);
+
+			if (flag)
+				number = Integer.parseInt(temp);
+
+		} while (!flag || number < minValue || number > maxValue);
+
+		return number;
+	}
+
 	// Method to check if a string is a valid integer
-	public static boolean isValidNumber(String st) {
+	private static boolean isValidNumber(String st) {
 		try {
 			Integer.parseInt(st);
 			return true;
