@@ -85,6 +85,10 @@ public class TournamentScoringSystem {
 		for (int i = 0; i < 4; i++) {
 			System.out.println((i + 1) + ": for " + OPTIONNAMES[i]);
 		}
+		System.out.println("--------------------------------------------------------------");
+
+		System.out.println("The Normal Team and Normal Individual will play 5 events,"
+				+ "\nwhile the Special Team and Special Individual can choose \nthe events to play.");
 
 		System.out.println("--------------------------------------------------------------\n");
 
@@ -113,8 +117,413 @@ public class TournamentScoringSystem {
 		System.out.println("--------------------------------------------------------------\n");
 
 		switch (choose) {
-		case 1:
+		case 1: {
 			// Initialize variables for team and event details
+			int teamMember = 5;
+			int noOfTeams = 5;
+			int noOfEvents = 5;
+
+			String teamNames[];
+			String teamMembers[];
+			String eventNames[];
+			int[][] teamPoints;
+
+			System.out.println("\n----- Number of Events SET SUCCESSFULLY -----");
+			System.out.println("--------------------------------------------------------------");
+			System.out.println("Total Number of Events: " + noOfEvents);
+			System.out.println("--------------------------------------------------------------\n");
+
+			eventNames = new String[noOfEvents];
+
+			// Prompt the user to enter the name of each event
+			for (int i = 0; i < noOfEvents; i++) {
+
+				System.out.print("Enter the name of event " + (i + 1) + ": ");
+				eventNames[i] = input.nextLine();
+			}
+
+			System.out.println("\n----- Events Name SET SUCCESSFULLY -----");
+			System.out.println("--------------------------------------------------------------");
+
+			for (int i = 0; i < noOfEvents; i++) {
+
+				System.out.println("Event " + (i + 1) + " name: " + eventNames[i]);
+			}
+			System.out.println("--------------------------------------------------------------\n");
+
+			System.out.println("\n----- Number of Teams SET SUCCESSFULLY -----");
+			System.out.println("--------------------------------------------------------------");
+			System.out.println("Total Number of Teams: " + noOfTeams);
+			System.out.println("--------------------------------------------------------------\n");
+
+			teamNames = new String[noOfTeams];
+
+			int totalMember = 5 * noOfTeams;
+			teamMembers = new String[totalMember];
+			teamPoints = new int[noOfTeams][noOfEvents + 1];
+
+			int index = 0;
+
+			// Prompt the user to enter the names of teams and their members
+			for (int i = 0; i < noOfTeams; i++) {
+
+				System.out.print("Enter the name of Team " + (i + 1) + ": ");
+				teamNames[i] = input.nextLine();
+
+				System.out.println();
+
+				for (int ii = 0; ii < teamMember; ii++) {
+
+					System.out.print("Enter " + teamNames[i] + " member (" + (ii + 1) + ") name: ");
+					teamMembers[index++] = input.nextLine();
+				}
+
+				System.out.println("##\t##\t##\t##\t##\t##\t##\t##");
+			}
+
+			index = 0;
+
+			System.out.println("\n----- Teams and Members Name SET SUCCESSFULLY -----");
+			System.out.println("--------------------------------------------------------------");
+
+			for (int i = 0; i < noOfTeams; i++) {
+
+				System.out.println("\nTeam " + (i + 1) + " name: " + teamNames[i]);
+
+				for (int ii = 0; ii < 5; ii++) {
+
+					System.out.println("Member " + (ii + 1) + " name: " + teamMembers[index++]);
+				}
+
+				System.out.println("##\t##\t##\t##\t##\t##\t##\t##");
+			}
+
+			System.out.println("--------------------------------------------------------------\n");
+
+			flag = false;
+
+			// Prompt the user to enter the rank for each team in each event
+			for (int i = 0; i < noOfTeams; i++) {
+
+				System.out.println("Enter rank for Team -> " + teamNames[i] + " <-");
+
+				int inputRank = 0;
+				int totalRankPoints = 0;
+
+				for (int ii = 0; ii < noOfEvents; ii++) {
+					do {
+
+						System.out.print("Rank for " + eventNames[ii] + " event: ");
+						String temp = input.nextLine();
+
+						flag = isValidNumber(temp);
+
+						if (flag) {
+							inputRank = Integer.parseInt(temp);
+
+						}
+					} while (!flag || inputRank <= 0);
+
+					if (inputRank <= noOfRanks) {
+
+						totalRankPoints += rankPoints[inputRank - 1];
+						teamPoints[i][ii] = rankPoints[inputRank - 1];
+
+					} else {
+
+						totalRankPoints += 1;
+						teamPoints[i][ii] = 1;
+
+					}
+
+					if (ii == noOfEvents - 1) {
+
+						teamPoints[i][ii + 1] = totalRankPoints;
+					}
+				}
+
+				System.out.println("##\t##\t##\t##\t##\t##\t##\t##");
+			}
+
+			System.out.println("\n----- Rank of Teams SET SUCCESSFULLY -----");
+			System.out.println("--------------------------------------------------------------");
+
+			index = 0;
+			for (int i = 0; i < noOfTeams; i++) {
+
+				System.out.println("Team (" + (i + 1) + ") name: " + teamNames[i] + "\n");
+
+				for (int ii = 0; ii < noOfEvents; ii++) {
+
+					System.out.println(eventNames[ii] + " event: " + teamPoints[i][ii] + " points");
+
+					if (ii == noOfEvents - 1) {
+
+						System.out.println("Total Points: " + teamPoints[i][ii + 1]);
+					}
+				}
+
+				System.out.println("##\t##\t##\t##\t##\t##\t##\t##");
+			}
+
+			System.out.println("--------------------------------------------------------------\n");
+
+			System.out.println("\n----- FINAL RESULT -----");
+			System.out.println("--------------------------------------------------------------");
+
+			// Determine the highest points for each event and the total points
+			for (int i = 0; i < noOfEvents + 1; i++) {
+
+				if (i < noOfEvents)
+
+					System.out.println("\nFinding the max points of " + eventNames[i] + " event.");
+				else
+
+					System.out.println("Finding the total max points.");
+
+				int max = teamPoints[0][i];
+
+				for (int ii = 1; ii < noOfTeams; ii++) {
+
+					if (max < teamPoints[ii][i]) {
+
+						max = teamPoints[ii][i];
+
+					}
+				}
+
+				if (i < noOfEvents)
+
+					System.out.println("Max point of " + eventNames[i] + " event = " + max);
+				else
+
+					System.out.println("The total max points: " + max);
+
+				System.out.println("--------------------------------------------------------------\n");
+
+				// save the indexs of team name with the same points
+				for (int ii = 0; ii < noOfTeams; ii++) {
+
+					if (max == teamPoints[ii][i])
+						highestPointIndexes.add(ii);
+				}
+
+				if (i < noOfEvents) {
+
+					System.out.println("Winner of " + eventNames[i] + " event.");
+
+					for (int highest : highestPointIndexes) {
+
+						System.out.println("Team: " + teamNames[highest]);
+
+					}
+
+					System.out.println("--------------------------------------------------------------");
+				} else {
+
+					System.out.println("Highest Total Points Team(s) ...");
+
+					for (int highest : highestPointIndexes) {
+
+						System.out.println("Team: " + teamNames[highest]);
+					}
+				}
+
+				highestPointIndexes.clear();
+			}
+			System.out.println("--------------------------------------------------------------\n");
+		}
+			break;
+		case 2:
+		// Code for Normal Individual
+		{
+			int noOfEvents = 5;
+			int noOfMembers = 20;
+
+			String eventNames[] = new String[noOfEvents];
+			String memberNames[] = new String[noOfMembers];
+
+			int pointsOfMembers[][] = new int[noOfMembers][1 + noOfEvents];
+
+			System.out.println("\n----- Number of Events SET SUCCESSFULLY -----");
+			System.out.println("--------------------------------------------------------------");
+			System.out.println("Total Number of Events: " + noOfEvents);
+			System.out.println("--------------------------------------------------------------\n");
+
+			// Prompt the user to enter the name of each event
+			for (int i = 0; i < noOfEvents; i++) {
+
+				System.out.print("Enter the name of event " + (i + 1) + ": ");
+				eventNames[i] = input.nextLine();
+			}
+
+			System.out.println("\n----- Events Name SET SUCCESSFULLY -----");
+			System.out.println("--------------------------------------------------------------");
+
+			for (int i = 0; i < noOfEvents; i++) {
+
+				System.out.println("Event " + (i + 1) + " name: " + eventNames[i]);
+			}
+			System.out.println("--------------------------------------------------------------\n");
+
+			System.out.println("\n----- Number of Members SET SUCCESSFULLY -----");
+			System.out.println("--------------------------------------------------------------");
+			System.out.println("Total Number of Members: " + noOfMembers);
+			System.out.println("--------------------------------------------------------------\n");
+
+			for (int i = 0; i < noOfMembers; i++) {
+
+				System.out.print("Enter name of member(" + (i + 1) + ") :");
+				memberNames[i] = input.nextLine();
+			}
+
+			System.out.println("\n----- Member names SET SUCCESSFULLY -----");
+			System.out.println("--------------------------------------------------------------");
+
+			for (int i = 0; i < noOfMembers; i++) {
+				System.out.println("Member (" + (i + 1) + ") name : " + memberNames[i]);
+			}
+
+			System.out.println("--------------------------------------------------------------\n");
+
+			// rank for each member
+			flag = false;
+
+			for (int i = 0; i < noOfMembers; i++) {
+				System.out.println("Enter rank for member : " + memberNames[i]);
+
+				int inputRank = 0, totalRankPoints = 0;
+
+				for (int ii = 0; ii < noOfEvents; ii++) {
+					do {
+
+						System.out.print("Rank for " + eventNames[ii] + " event: ");
+						String temp = input.nextLine();
+
+						flag = isValidNumber(temp);
+
+						if (flag) {
+							inputRank = Integer.parseInt(temp);
+
+						}
+					} while (!flag || inputRank <= 0);
+
+					if (inputRank <= noOfRanks) {
+
+						totalRankPoints += rankPoints[inputRank - 1];
+						pointsOfMembers[i][ii] = rankPoints[inputRank - 1];
+
+					} else {
+
+						totalRankPoints += 1;
+						pointsOfMembers[i][ii] = 1;
+
+					}
+
+					if (ii == noOfEvents - 1) {
+
+						pointsOfMembers[i][ii + 1] = totalRankPoints;
+					}
+
+				}
+
+				System.out.println("##\t##\t##\t##\t##\t##\t##\t##");
+			}
+
+			System.out.println("\n----- Member Ranks SET SUCCESSFULLY -----");
+			System.out.println("--------------------------------------------------------------");
+
+			for (int i = 0; i < noOfMembers; i++) {
+
+				System.out.println("Member (" + (i + 1) + ") name: " + memberNames[i] + "\n");
+
+				for (int ii = 0; ii < noOfEvents; ii++) {
+
+					System.out.println(eventNames[ii] + " event: " + pointsOfMembers[i][ii] + " points");
+
+					if (ii == noOfEvents - 1) {
+
+						System.out.println("Total Points: " + pointsOfMembers[i][ii + 1]);
+					}
+				}
+
+				System.out.println("##\t##\t##\t##\t##\t##\t##\t##");
+			}
+
+			System.out.println("--------------------------------------------------------------\n");
+
+			System.out.println("--------------------------------------------------------------\n");
+
+			System.out.println("\n----- FINAL RESULT -----");
+			System.out.println("--------------------------------------------------------------");
+
+			// Determine the highest points for each event and the total points
+			for (int i = 0; i < noOfEvents + 1; i++) {
+
+				if (i < noOfEvents)
+
+					System.out.println("\nFinding the max points of " + eventNames[i] + " event.");
+				else
+
+					System.out.println("Finding the total max points.");
+
+				int max = pointsOfMembers[0][i];
+
+				for (int ii = 1; ii < noOfMembers; ii++) {
+
+					if (max < pointsOfMembers[ii][i]) {
+
+						max = pointsOfMembers[ii][i];
+
+					}
+				}
+
+				if (i < noOfEvents)
+
+					System.out.println("Max point of " + eventNames[i] + " event = " + max);
+				else
+
+					System.out.println("The total max points: " + max);
+
+				System.out.println("--------------------------------------------------------------\n");
+
+				// save the indexs of team name with the same points
+				for (int ii = 0; ii < noOfMembers; ii++) {
+
+					if (max == pointsOfMembers[ii][i])
+						highestPointIndexes.add(ii);
+				}
+
+				if (i < noOfEvents) {
+
+					System.out.println("Winner of " + eventNames[i] + " event.");
+
+					for (int highest : highestPointIndexes) {
+
+						System.out.println("Member: " + memberNames[highest]);
+
+					}
+
+					System.out.println("--------------------------------------------------------------");
+				} else {
+
+					System.out.println("Highest Total Points Member(s) ...");
+
+					for (int highest : highestPointIndexes) {
+
+						System.out.println("Member: " + memberNames[highest]);
+					}
+				}
+
+				highestPointIndexes.clear();
+			}
+			System.out.println("--------------------------------------------------------------\n");
+
+		}
+			break;
+		case 3:
+		// Code for Special Team
+		{
 			int teamMember = 5;
 			int minEvent = 1, minTeam = 1;
 			int maxEvent = 5, maxTeam = 5;
@@ -309,7 +718,7 @@ public class TournamentScoringSystem {
 					System.out.println("\nFinding the max point of " + eventNames[i] + " event.");
 				else
 
-					System.out.println("Finding the max point of total points.");
+					System.out.println("Finding the total max points.");
 
 				int max = teamPoints[0][i];
 
@@ -327,7 +736,7 @@ public class TournamentScoringSystem {
 					System.out.println("Max point of " + eventNames[i] + " event = " + max);
 				else
 
-					System.out.println("Max point of total points: " + max);
+					System.out.println("The total max points: " + max);
 
 				System.out.println("--------------------------------------------------------------\n");
 
@@ -348,6 +757,7 @@ public class TournamentScoringSystem {
 					}
 
 					System.out.println("--------------------------------------------------------------");
+
 				} else {
 
 					System.out.println("Highest Total Points Team(s) ...");
@@ -361,16 +771,235 @@ public class TournamentScoringSystem {
 				highestPointIndexes.clear();
 			}
 			System.out.println("--------------------------------------------------------------\n");
-
-			break;
-		case 2:
-			// Code for Normal Individual
-			break;
-		case 3:
-			// Code for Special Team
+		}
 			break;
 		case 4:
 			// Code for Special Individual
+		{
+			int minEvent = 1;
+			int maxEvent = 5;
+			int minMember = 5;
+			int maxMember = 20;
+			int noOfEvents = 0;
+			int noOfMembers = 0;
+			
+			String[] eventNames;
+			String[] memberNames;
+			int pointsOfMembers[][];
+			
+			flag = false;
+
+			// Prompt the user to enter the number of events
+			do {
+
+				System.out.print("Enter the total number of events (min 1 and max 5): ");
+				String temp = input.nextLine();
+
+				flag = isValidNumber(temp);
+
+				if (flag) {
+					noOfEvents = Integer.parseInt(temp);
+				}
+
+			} while (!flag || noOfEvents < minEvent || noOfEvents > maxEvent);
+
+			System.out.println("\n----- Number of Events SET SUCCESSFULLY -----");
+			System.out.println("--------------------------------------------------------------");
+			System.out.println("Total Number of Events: " + noOfEvents);
+			System.out.println("--------------------------------------------------------------\n");
+
+			eventNames = new String[noOfEvents];
+
+			// Prompt the user to enter the name of each event
+			for (int i = 0; i < noOfEvents; i++) {
+
+				System.out.print("Enter the name of event " + (i + 1) + ": ");
+				eventNames[i] = input.nextLine();
+			}
+
+			System.out.println("\n----- Events Name SET SUCCESSFULLY -----");
+			System.out.println("--------------------------------------------------------------");
+
+			for (int i = 0; i < noOfEvents; i++) {
+
+				System.out.println("Event " + (i + 1) + " name: " + eventNames[i]);
+			}
+			System.out.println("--------------------------------------------------------------\n");
+
+			flag = false;
+
+			// Prompt the user to enter the number of teams
+			do {
+
+				System.out.print("Enter the total number of member (min 5 and max 20): ");
+				String temp = input.nextLine();
+
+				flag = isValidNumber(temp);
+
+				if (flag) {
+					noOfMembers = Integer.parseInt(temp);
+
+				}
+			} while (!flag || noOfMembers < minMember || noOfMembers > maxMember);
+
+			pointsOfMembers = new int[noOfMembers][1 + noOfEvents];
+			
+			System.out.println("\n----- Number of Members SET SUCCESSFULLY -----");
+			System.out.println("--------------------------------------------------------------");
+			System.out.println("Total Number of Members: " + noOfMembers);
+			System.out.println("--------------------------------------------------------------\n");
+
+			memberNames = new String[noOfMembers];
+			
+			for (int i = 0; i < noOfMembers; i++) {
+
+				System.out.print("Enter name of member(" + (i + 1) + ") :");
+				memberNames[i] = input.nextLine();
+			}
+
+			System.out.println("\n----- Member names SET SUCCESSFULLY -----");
+			System.out.println("--------------------------------------------------------------");
+
+			for (int i = 0; i < noOfMembers; i++) {
+				System.out.println("Member (" + (i + 1) + ") name : " + memberNames[i]);
+			}
+
+			System.out.println("--------------------------------------------------------------\n");
+
+			// rank for each member
+			flag = false;
+
+			for (int i = 0; i < noOfMembers; i++) {
+				System.out.println("Enter rank for member : " + memberNames[i]);
+
+				int inputRank = 0, totalRankPoints = 0;
+
+				for (int ii = 0; ii < noOfEvents; ii++) {
+					do {
+
+						System.out.print("Rank for " + eventNames[ii] + " event: ");
+						String temp = input.nextLine();
+
+						flag = isValidNumber(temp);
+
+						if (flag) {
+							inputRank = Integer.parseInt(temp);
+
+						}
+					} while (!flag || inputRank <= 0);
+
+					if (inputRank <= noOfRanks) {
+
+						totalRankPoints += rankPoints[inputRank - 1];
+						pointsOfMembers[i][ii] = rankPoints[inputRank - 1];
+
+					} else {
+
+						totalRankPoints += 1;
+						pointsOfMembers[i][ii] = 1;
+
+					}
+
+					if (ii == noOfEvents - 1) {
+
+						pointsOfMembers[i][ii + 1] = totalRankPoints;
+					}
+
+				}
+
+				System.out.println("##\t##\t##\t##\t##\t##\t##\t##");
+			}
+
+			System.out.println("\n----- Member Ranks SET SUCCESSFULLY -----");
+			System.out.println("--------------------------------------------------------------");
+
+			for (int i = 0; i < noOfMembers; i++) {
+
+				System.out.println("Member (" + (i + 1) + ") name: " + memberNames[i] + "\n");
+
+				for (int ii = 0; ii < noOfEvents; ii++) {
+
+					System.out.println(eventNames[ii] + " event: " + pointsOfMembers[i][ii] + " points");
+
+					if (ii == noOfEvents - 1) {
+
+						System.out.println("Total Points: " + pointsOfMembers[i][ii + 1]);
+					}
+				}
+
+				System.out.println("##\t##\t##\t##\t##\t##\t##\t##");
+			}
+
+			System.out.println("--------------------------------------------------------------\n");
+
+			System.out.println("--------------------------------------------------------------\n");
+
+			System.out.println("\n----- FINAL RESULT -----");
+			System.out.println("--------------------------------------------------------------");
+
+			// Determine the highest points for each event and the total points
+			for (int i = 0; i < noOfEvents + 1; i++) {
+
+				if (i < noOfEvents)
+
+					System.out.println("\nFinding the max points of " + eventNames[i] + " event.");
+				else
+
+					System.out.println("Finding the total max points.");
+
+				int max = pointsOfMembers[0][i];
+
+				for (int ii = 1; ii < noOfMembers; ii++) {
+
+					if (max < pointsOfMembers[ii][i]) {
+
+						max = pointsOfMembers[ii][i];
+
+					}
+				}
+
+				if (i < noOfEvents)
+
+					System.out.println("Max point of " + eventNames[i] + " event = " + max);
+				else
+
+					System.out.println("The total max points: " + max);
+
+				System.out.println("--------------------------------------------------------------\n");
+
+				// save the indexs of team name with the same points
+				for (int ii = 0; ii < noOfMembers; ii++) {
+
+					if (max == pointsOfMembers[ii][i])
+						highestPointIndexes.add(ii);
+				}
+
+				if (i < noOfEvents) {
+
+					System.out.println("Winner of " + eventNames[i] + " event.");
+
+					for (int highest : highestPointIndexes) {
+
+						System.out.println("Member: " + memberNames[highest]);
+
+					}
+
+					System.out.println("--------------------------------------------------------------");
+				} else {
+
+					System.out.println("Highest Total Points Member(s) ...");
+
+					for (int highest : highestPointIndexes) {
+
+						System.out.println("Member: " + memberNames[highest]);
+					}
+				}
+
+				highestPointIndexes.clear();
+			}
+			System.out.println("--------------------------------------------------------------\n");
+
+		}
 			break;
 		}
 
